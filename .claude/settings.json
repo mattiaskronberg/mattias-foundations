@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); [ \"$(printf '%s' \"$input\" | jq -r '.stop_hook_active // false')\" = \"true\" ] && exit 0; recap=\"${CLAUDE_PROJECT_DIR:-.}/Recap.md\"; { [ -f \"$recap\" ] && [ -n \"$(find \"$recap\" -mmin -2 2>/dev/null)\" ]; } && exit 0; printf '%s' '{\"decision\":\"block\",\"reason\":\"Before finishing: update Recap.md at the repository root with a super-short 3-5 sentence summary of what the project is and the most recent work done, then stop.\"}'",
+            "timeout": 10,
+            "statusMessage": "Checking Recap.md is up to date…"
+          }
+        ]
+      }
+    ]
+  }
+}

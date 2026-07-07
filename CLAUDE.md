@@ -4,6 +4,12 @@ shell commands, and other important information, read the current plan:
 `specs/001-design-system-architecture/plan.md`
 <!-- SPECKIT END -->
 
+## Recap
+
+After completing any piece of work, update `Recap.md` at the repository root: a
+super-short summary (3–5 sentences total) of what the project is and the most recent
+thing that was done. Keep it terse — overwrite, don't append a log.
+
 ## figma-cli
 
 The design system's tokens round-trip through Figma via **figma-cli**

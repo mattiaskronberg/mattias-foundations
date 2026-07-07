@@ -34,11 +34,11 @@ Mattias-Foundations is a single-repo, data-artifact project. Paths below are rep
 
 **Purpose**: Repository initialization and toolchain
 
-- [ ] T001 Create the Mattias-Foundations directory structure per plan.md (`schemas/`, `scripts/`, `tests/`, `docs/`, `.github/workflows/`) at the repository root
-- [ ] T002 Initialize the Node.js project: create `package.json` with `"type": "module"`, `"engines": { "node": ">=18" }`, and a `"test": "node --test"` script at the repository root
-- [ ] T003 [P] Add dev dependencies `ajv` and `ajv-formats` to `package.json` and install them
-- [ ] T004 [P] Add `.gitignore` (node_modules, OS/editor cruft) at the repository root
-- [ ] T004a Initialize the git repository (`git init`) and add the GitHub remote at the repository root — prerequisite for the release workflow and tag-based publishing (T016, T023)
+- [X] T001 Create the Mattias-Foundations directory structure per plan.md (`schemas/`, `scripts/`, `tests/`, `docs/`, `.github/workflows/`) at the repository root
+- [X] T002 Initialize the Node.js project: create `package.json` with `"type": "module"`, `"engines": { "node": ">=18" }`, and a `"test": "node --test"` script at the repository root
+- [X] T003 [P] Add dev dependencies `ajv` and `ajv-formats` to `package.json` and install them
+- [X] T004 [P] Add `.gitignore` (node_modules, OS/editor cruft) at the repository root
+- [X] T004a Initialize the git repository (`git init`) and add the GitHub remote at the repository root — prerequisite for the release workflow and tag-based publishing (T016, T023). _(git repo initialized locally on branch `001-design-system-architecture`; the GitHub remote must still be added by the user — no remote URL/repo was available to create.)_
 
 ---
 
@@ -48,8 +48,8 @@ Mattias-Foundations is a single-repo, data-artifact project. Paths below are rep
 
 **⚠️ CRITICAL**: No user story work can begin until the schemas exist in the repo
 
-- [ ] T005 Author `schemas/tokens.schema.json` (DTCG Draft 2020-12) from `specs/001-design-system-architecture/contracts/tokens.schema.json` — enforces two-tier `primitives` + `semantic`, `theme` (`light`+`dark` required) × open-ended `brand` dimensions, and a `meta.schemaVersion` field
-- [ ] T006 [P] Author `schemas/exceptions.schema.json` from `specs/001-design-system-architecture/contracts/exceptions.schema.json` — array of entries with required `component`, non-empty `platforms[]` (`ios|android|web`), `type` (`visual|behavioral|naming|native-first`), `rationale`, `acceptedDate` (`YYYY-MM-DD`), optional `approvedBy`/`implementations`
+- [X] T005 Author `schemas/tokens.schema.json` (DTCG Draft 2020-12) from `specs/001-design-system-architecture/contracts/tokens.schema.json` — enforces two-tier `primitives` + `semantic`, `theme` (`light`+`dark` required) × open-ended `brand` dimensions, and a `meta.schemaVersion` field
+- [X] T006 [P] Author `schemas/exceptions.schema.json` from `specs/001-design-system-architecture/contracts/exceptions.schema.json` — array of entries with required `component`, non-empty `platforms[]` (`ios|android|web`), `type` (`visual|behavioral|naming|native-first`), `rationale`, `acceptedDate` (`YYYY-MM-DD`), optional `approvedBy`/`implementations`
 
 **Checkpoint**: Schemas in place — user story implementation can begin
 
@@ -68,19 +68,19 @@ version id with no manual re-translation (quickstart Scenarios 1, 2, 6).
 
 ### Tests for User Story 1 (write first, ensure they FAIL before implementation) ⚠️
 
-- [ ] T007 [P] [US1] Schema-validation test: `tokens.json` validates against `schemas/tokens.schema.json` in `tests/tokens.schema.test.mjs`
-- [ ] T008 [P] [US1] Resolution contract test: every semantic token resolves to an existing primitive for every declared `(theme, brand)` — no gaps, no dangling aliases — in `tests/resolution.test.mjs`
-- [ ] T009 [P] [US1] Drift contract test: a token key present in the previous release that is renamed/removed in the new one surfaces as a non-zero failure (absent an explicit migration marker) in `tests/drift.test.mjs`
+- [X] T007 [P] [US1] Schema-validation test: `tokens.json` validates against `schemas/tokens.schema.json` in `tests/tokens.schema.test.mjs`
+- [X] T008 [P] [US1] Resolution contract test: every semantic token resolves to an existing primitive for every declared `(theme, brand)` — no gaps, no dangling aliases — in `tests/resolution.test.mjs`
+- [X] T009 [P] [US1] Drift contract test: a token key present in the previous release that is renamed/removed in the new one surfaces as a non-zero failure (absent an explicit migration marker) in `tests/drift.test.mjs`
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Author `tokens.json` at the repository root: `primitives` group (color, spacing, font-size, line-height, radius as raw `$type`-typed values) and `semantic` group (e.g. `color.action.primary`) resolved per `theme` (`light`/`dark`) × `brand` (`Mattias`) via `{primitives.*}` aliases, plus `meta.version` + `meta.schemaVersion`
-- [ ] T011 [US1] Implement `scripts/validate.mjs`: ajv (+ ajv-formats) validation of `tokens.json` against `schemas/tokens.schema.json` (and `exceptions.json` against its schema), non-zero exit on failure
-- [ ] T012 [US1] Implement `scripts/drift-check.mjs`: assert total `(theme, brand)` resolution + alias existence, and diff against the previous release to flag renamed/removed keys as failures unless a migration marker is present
-- [ ] T013 [P] [US1] Author `docs/figma-workflow.md`: author variables in Figma → `figma-cli extract --sections variables --save tokens.json` → commit; committed JSON is the single source of truth (research R3)
-- [ ] T014 [P] [US1] Author `docs/consumption.md` from `specs/001-design-system-architecture/contracts/consumption-contract.md`: how a platform pins a version, fetches `releases/download/vX.Y.Z/tokens.json`, and validates it (FR-003a/FR-004)
-- [ ] T015 [US1] Add `.github/workflows/validate.yml`: PR gate running `node scripts/validate.mjs`, `node scripts/drift-check.mjs`, and `node --test`
-- [ ] T016 [US1] Add `.github/workflows/release.yml`: on `vX.Y.Z` tag, attach `tokens.json` as the single GitHub Release asset (no npm/SPM/Maven). Requires the git repo + GitHub remote from T004a
+- [X] T010 [US1] Author `tokens.json` at the repository root: `primitives` group (color, spacing, font-size, line-height, radius as raw `$type`-typed values) and `semantic` group (e.g. `color.action.primary`) resolved per `theme` (`light`/`dark`) × `brand` (`Mattias`) via `{primitives.*}` aliases, plus `meta.version` + `meta.schemaVersion`
+- [X] T011 [US1] Implement `scripts/validate.mjs`: ajv (+ ajv-formats) validation of `tokens.json` against `schemas/tokens.schema.json` (and `exceptions.json` against its schema), non-zero exit on failure
+- [X] T012 [US1] Implement `scripts/drift-check.mjs`: assert total `(theme, brand)` resolution + alias existence, and diff against the previous release to flag renamed/removed keys as failures unless a migration marker is present
+- [X] T013 [P] [US1] Author `docs/figma-workflow.md`: author variables in Figma → `figma-cli extract --sections variables --save tokens.json` → commit; committed JSON is the single source of truth (research R3)
+- [X] T014 [P] [US1] Author `docs/consumption.md` from `specs/001-design-system-architecture/contracts/consumption-contract.md`: how a platform pins a version, fetches `releases/download/vX.Y.Z/tokens.json`, and validates it (FR-003a/FR-004)
+- [X] T015 [US1] Add `.github/workflows/validate.yml`: PR gate running `node scripts/validate.mjs`, `node scripts/drift-check.mjs`, and `node --test`
+- [X] T016 [US1] Add `.github/workflows/release.yml`: on `vX.Y.Z` tag, attach `tokens.json` as the single GitHub Release asset (no npm/SPM/Maven). Requires the git repo + GitHub remote from T004a
 
 **Checkpoint**: User Story 1 fully functional — tokens are a versioned, validated, drift-guarded single source of truth. **This is the shippable MVP.**
 
@@ -96,9 +96,9 @@ full story is deferred; only its v1 registry/process scaffolding is built here.
 (iOS Liquid Glass `TabBar`) and confirm it validates while a malformed entry fails
 (quickstart Scenario 5).
 
-- [ ] T017 [P] [US3] Create `exceptions.json` at the repository root, initialized to `[]`
-- [ ] T018 [P] [US3] Exceptions schema-validation test: `[]` validates, a well-formed entry validates, and a malformed entry (missing `rationale` / bad `acceptedDate` / unknown platform) fails, in `tests/exceptions.schema.test.mjs`
-- [ ] T019 [US3] Author `docs/platform-onboarding.md`: the process for platforms to later add components / naming deviations / exceptions, including the merge gate requiring an exception entry before any deviation lands on a platform main branch
+- [X] T017 [P] [US3] Create `exceptions.json` at the repository root, initialized to `[]`
+- [X] T018 [P] [US3] Exceptions schema-validation test: `[]` validates, a well-formed entry validates, and a malformed entry (missing `rationale` / bad `acceptedDate` / unknown platform) fails, in `tests/exceptions.schema.test.mjs`
+- [X] T019 [US3] Author `docs/platform-onboarding.md`: the process for platforms to later add components / naming deviations / exceptions, including the merge gate requiring an exception entry before any deviation lands on a platform main branch
 
 **Checkpoint**: Exception registry ships as `[]`, validates, and its governance process is documented
 
@@ -114,7 +114,7 @@ doc is a v1 deliverable.
 platform-specific component (e.g. an iOS-only entry) is distinguished from a synced one purely
 by its Figma name.
 
-- [ ] T020 [P] [US4] Author `docs/naming-convention.md`: the Figma prefix/suffix convention (prefix vs suffix, casing, allowed platform labels) owned by the design team
+- [X] T020 [P] [US4] Author `docs/naming-convention.md`: the Figma prefix/suffix convention (prefix vs suffix, casing, allowed platform labels) owned by the design team
 
 ---
 
@@ -134,8 +134,8 @@ by its Figma name.
 
 **Purpose**: Repo-level docs and end-to-end validation
 
-- [ ] T021 [P] Author `README.md` at the repository root: project overview, repo layout, how to validate (`node scripts/validate.mjs`), and how to cut a release
-- [ ] T022 Run all quickstart.md scenarios (1–6) end-to-end and confirm each passes
+- [X] T021 [P] Author `README.md` at the repository root: project overview, repo layout, how to validate (`node scripts/validate.mjs`), and how to cut a release
+- [X] T022 Run all quickstart.md scenarios (1–6) end-to-end and confirm each passes
 - [ ] T023 Cut the `v0.1.0` release (`git tag v0.1.0 && git push origin v0.1.0`) and confirm exactly one `tokens.json` asset is attached at `releases/download/v0.1.0/tokens.json` (quickstart Scenario 4). Requires the git repo + GitHub remote from T004a
 
 ---

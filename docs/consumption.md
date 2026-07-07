@@ -10,7 +10,7 @@ contract — there is no runtime API; the artifact is a file.
   `schemas/tokens.schema.json`).
 - Published on a **GitHub Release** tagged `vX.Y.Z` (semver), attached as a release asset.
 - Stable, versioned fetch URL:
-  `https://github.com/<org>/Mattias-Foundations/releases/download/vX.Y.Z/tokens.json`
+  `https://github.com/mattiaskronberg/mattias-foundations/releases/download/vX.Y.Z/tokens.json`
 - `exceptions.json` is versioned in-repo alongside the tokens and travels with the tag.
 - **No** npm / SPM / Maven packages are published (Constitution V).
 
