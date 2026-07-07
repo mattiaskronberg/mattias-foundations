@@ -1,0 +1,21 @@
+{
+  "name": "mattias-foundations",
+  "version": "0.1.0",
+  "description": "Mattias Design System — Foundations: the versioned, DTCG-conformant tokens.json single source of truth plus its schemas, validation and No-Silent-Drift tooling.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "drift-check": "node scripts/drift-check.mjs",
+    "test": "node --test",
+    "check": "node scripts/validate.mjs && node scripts/drift-check.mjs && node --test"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mattias.dev/foundations/schemas/tokens.schema.json",
+  "title": "Mattias-Foundations tokens.json (DTCG)",
+  "description": "Versioned schema for the canonical Foundations artifact: DTCG-format primitives (un-themed) + semantic tokens carrying theme x brand resolution. v1 requires light+dark for the Mattias brand; additional themes/brands are non-breaking additions.",
+  "type": "object",
+  "required": ["meta", "primitives", "semantic"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "schemaVersion"],
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Foundations release version (semver).",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "Version of THIS schema the artifact targets (semver).",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        }
+      }
+    },
+    "primitives": {
+      "type": "object",
+      "description": "Raw, un-themed atomic values. Nested groups terminating in DTCG token objects.",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/primitiveNode" }
+    },
+    "semantic": {
+      "type": "object",
+      "description": "Named-by-purpose tokens; each resolves to a primitive alias per (theme, brand).",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/semanticNode" }
+    }
+  },
+  "$defs": {
+    "dtcgType": {
+      "type": "string",
+      "enum": ["color", "dimension", "number", "fontFamily", "fontWeight", "duration", "cubicBezier", "shadow", "typography"]
+    },
+    "alias": {
+      "type": "string",
+      "description": "DTCG alias reference to a primitive, e.g. {primitives.blue.500}.",
+      "pattern": "^\\{primitives(\\.[A-Za-z0-9_-]+)+\\}$"
+    },
+    "primitiveToken": {
+      "type": "object",
+      "required": ["$value", "$type"],
+      "additionalProperties": false,
+      "properties": {
+        "$value": {},
+        "$type": { "$ref": "#/$defs/dtcgType" },
+        "$description": { "type": "string" }
+      }
+    },
+    "primitiveNode": {
+      "oneOf": [
+        { "$ref": "#/$defs/primitiveToken" },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/primitiveNode" }
+        }
+      ]
+    },
+    "brandMap": {
+      "type": "object",
+      "description": "Brand variant -> primitive alias. 'Mattias' required in v1; more brands allowed (non-breaking).",
+      "required": ["Mattias"],
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/alias" },
+      "properties": {
+        "Mattias": { "$ref": "#/$defs/alias" }
+      }
+    },
+    "semanticValue": {
+      "type": "object",
+      "description": "theme -> brand -> alias. 'light' and 'dark' required in v1; more themes allowed.",
+      "required": ["light", "dark"],
+      "additionalProperties": { "$ref": "#/$defs/brandMap" },
+      "properties": {
+        "light": { "$ref": "#/$defs/brandMap" },
+        "dark": { "$ref": "#/$defs/brandMap" }
+      }
+    },
+    "semanticToken": {
+      "type": "object",
+      "required": ["$type", "$value"],
+      "additionalProperties": false,
+      "properties": {
+        "$type": { "$ref": "#/$defs/dtcgType" },
+        "$value": { "$ref": "#/$defs/semanticValue" },
+        "$description": { "type": "string" }
+      }
+    },
+    "semanticNode": {
+      "oneOf": [
+        { "$ref": "#/$defs/semanticToken" },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/semanticNode" }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+name: release
+
+# On a vX.Y.Z tag: re-validate, then publish exactly one canonical artifact —
+# tokens.json — as the sole GitHub Release asset. No npm/SPM/Maven (Constitution V).
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - name: Validate before release
+        run: node scripts/validate.mjs && node scripts/drift-check.mjs && node --test
+
+      - name: Publish tokens.json as the single release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tokens.json
+          fail_on_unmatched_files: true

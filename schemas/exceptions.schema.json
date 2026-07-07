@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mattias.dev/foundations/schemas/exceptions.schema.json",
+  "title": "Mattias-Foundations exceptions.json",
+  "description": "Engineering-side exception registry: governed, intentional deviations from parity or the native-first principle. Ships as an empty array in v1.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/exceptionEntry" },
+  "$defs": {
+    "platform": {
+      "type": "string",
+      "enum": ["ios", "android", "web"]
+    },
+    "exceptionEntry": {
+      "type": "object",
+      "required": ["component", "platforms", "type", "rationale", "acceptedDate"],
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Canonical cross-platform component name."
+        },
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/platform" }
+        },
+        "type": {
+          "type": "string",
+          "enum": ["visual", "behavioral", "naming", "native-first"],
+          "description": "Kind of deviation being registered."
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Why the deviation is accepted."
+        },
+        "acceptedDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "Date the exception was accepted (YYYY-MM-DD)."
+        },
+        "approvedBy": {
+          "type": "string",
+          "description": "Optional maintainer who approved the exception."
+        },
+        "implementations": {
+          "type": "object",
+          "description": "Optional per-platform implementation links, populated when components ship in later releases.",
+          "additionalProperties": { "type": "string", "format": "uri" }
+        }
+      }
+    }
+  }
+}
