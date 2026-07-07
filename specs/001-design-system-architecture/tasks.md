@@ -38,7 +38,7 @@ Mattias-Foundations is a single-repo, data-artifact project. Paths below are rep
 - [X] T002 Initialize the Node.js project: create `package.json` with `"type": "module"`, `"engines": { "node": ">=18" }`, and a `"test": "node --test"` script at the repository root
 - [X] T003 [P] Add dev dependencies `ajv` and `ajv-formats` to `package.json` and install them
 - [X] T004 [P] Add `.gitignore` (node_modules, OS/editor cruft) at the repository root
-- [X] T004a Initialize the git repository (`git init`) and add the GitHub remote at the repository root — prerequisite for the release workflow and tag-based publishing (T016, T023). _(git repo initialized locally on branch `001-design-system-architecture`; the GitHub remote must still be added by the user — no remote URL/repo was available to create.)_
+- [X] T004a Initialize the git repository (`git init`) and add the GitHub remote at the repository root — prerequisite for the release workflow and tag-based publishing (T016, T023). _(Done: git repo initialized and pushed to the public GitHub remote `origin` → `github.com/mattiaskronberg/mattias-foundations`, default branch `main`.)_
 
 ---
 
@@ -136,7 +136,7 @@ by its Figma name.
 
 - [X] T021 [P] Author `README.md` at the repository root: project overview, repo layout, how to validate (`node scripts/validate.mjs`), and how to cut a release
 - [X] T022 Run all quickstart.md scenarios (1–6) end-to-end and confirm each passes
-- [ ] T023 Cut the `v0.1.0` release (`git tag v0.1.0 && git push origin v0.1.0`) and confirm exactly one `tokens.json` asset is attached at `releases/download/v0.1.0/tokens.json` (quickstart Scenario 4). Requires the git repo + GitHub remote from T004a
+- [X] T023 Cut the `v0.1.0` release (`git tag v0.1.0 && git push origin v0.1.0`) and confirm exactly one `tokens.json` asset is attached at `releases/download/v0.1.0/tokens.json` (quickstart Scenario 4). Requires the git repo + GitHub remote from T004a. _(Done: pushed to `github.com/mattiaskronberg/mattias-foundations`; `release.yml` ran green and published exactly one asset — `tokens.json` — verified fetchable at the release URL (HTTP 200) and byte-identical to the repo artifact.)_
 
 ---
 
